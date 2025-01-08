@@ -35,7 +35,7 @@ Open the *index.html* file in any modern web browser to start using the applicat
 
 
 # Screenshots:
-![alt text](image-1.png)
+!![alt text](image-1.png)
 
 
 License:
