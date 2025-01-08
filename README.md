@@ -28,11 +28,14 @@ Open the *index.html* file in any modern web browser to start using the applicat
 
 - **Draw Mode**: Click the pencil icon to start drawing freehand lines.
 - **Erase Mode**: Click the eraser icon to remove parts of the drawing.
+- **Shape Drawing**: Click on the rectangle or circle icon to start drawing 
+- **shapes**, which will appear while being dragged.
+- **Color Picker**: Select a color using the color input field to customize your drawings.
 - **Clear Canvas**: Click the trash icon to erase the entire canvas and start fresh.
 
 
 # Screenshots:
-![alt text](image.png)
+![alt text](image-1.png)
 
 
 License:

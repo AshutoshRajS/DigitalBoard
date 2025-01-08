@@ -8,27 +8,34 @@ body {
   }
   #toolbar {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	gap: 10px;
 	background: #1f2937;
 	color: white;
 	padding: 10px 20px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  #toolbar button {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: white;
+	font-size: 20px;
+	padding: 10px;
+	border-radius: 4px;
+	transition: background 0.2s;
+  }
+  #toolbar button:hover {
+	background: rgba(255, 255, 255, 0.2);
+  }
+
+  #toolbar input[type="color"] {
+	border: none;
+	padding: 5px;
+	border-radius: 4px;
   }
   #canvas {
 	flex: 1;
 	background: white;
 	cursor: crosshair;
   }
-  button {
-	padding: 8px 16px;
-	margin: 0 5px;
-	border: none;
-	border-radius: 4px;
-	background: #4f46e5;
-	color: white;
-	cursor: pointer;
-  }
-  button:hover {
-	background: #6366f1;
-  }
-  

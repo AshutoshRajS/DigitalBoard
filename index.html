@@ -9,12 +9,14 @@
 <body>
   <!-- Toolbar -->
   <div id="toolbar">
-    <div>
-      <button id="draw">Draw</button>
-      <button id="erase">Erase</button>
-      <button id="clear">Clear</button>
-    </div>
-    <div>DigitalBoard</div>
+
+      <button id="draw" title="Draw Mode (Freehand)">✏️</button>
+      <button id="erase" title="Erase Mode">🩹</button>
+      <button id="rectangle" title="Draw Rectangle">⬛</button>
+      <button id="circle" title="Draw Circle">⚪</button>
+      <button id="clear" title="Clear Canvas">🗑️</button>
+      <input id="color-picker" type="color" title="Pick a Color" />
+      <span style="flex-grow: 1; text-align: right; color: #e5e7eb;">DigitalBoard</span>
   </div>
 
   <!-- Canvas -->

@@ -1,63 +1,79 @@
  // Get references to the canvas and its context
  const canvas = document.getElementById('canvas');
  const ctx = canvas.getContext('2d');
+ const colorPicker = document.getElementById('color-picker');
 
  // Resize canvas to fill the screen
  canvas.width = window.innerWidth;
  canvas.height = window.innerHeight - document.getElementById('toolbar').offsetHeight;
+    let tool = 'draw'; // Current tool (draw, erase, rectangle, circle)
+    let drawing = false;
+    let startX = 0, startY = 0;
+    let color = '#000000';
 
- // Variables for drawing
- let drawing = false;
- let erasing = false;
- let prevX = 0;
- let prevY = 0;
+    // Update color
+    colorPicker.addEventListener('input', (e) => {
+      color = e.target.value;
+    });
 
- // Start drawing
- canvas.addEventListener('mousedown', (e) => {
-   drawing = true;
-   prevX = e.clientX;
-   prevY = e.clientY - canvas.offsetTop;
- });
+    // Event listeners for tools
+    document.getElementById('draw').addEventListener('click', () => (tool = 'draw'));
+    document.getElementById('erase').addEventListener('click', () => (tool = 'erase'));
+    document.getElementById('rectangle').addEventListener('click', () => (tool = 'rectangle'));
+    document.getElementById('circle').addEventListener('click', () => (tool = 'circle'));
+    document.getElementById('clear').addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 
- // Draw or erase
- canvas.addEventListener('mousemove', (e) => {
-   if (!drawing) return;
-   const currX = e.clientX;
-   const currY = e.clientY - canvas.offsetTop;
+    // Drawing logic
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      startX = e.clientX;
+      startY = e.clientY - canvas.offsetTop;
 
-   ctx.strokeStyle = erasing ? 'white' : 'black';
-   ctx.lineWidth = erasing ? 20 : 2;
-   ctx.lineCap = 'round';
+      if (tool === 'erase') {
+        ctx.clearRect(startX - 10, startY - 10, 20, 20);
+      }
+    });
 
-   ctx.beginPath();
-   ctx.moveTo(prevX, prevY);
-   ctx.lineTo(currX, currY);
-   ctx.stroke();
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const x = e.clientX;
+      const y = e.clientY - canvas.offsetTop;
 
-   prevX = currX;
-   prevY = currY;
- });
+      if (tool === 'draw') {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        startX = x;
+        startY = y;
+      } else if (tool === 'erase') {
+        ctx.clearRect(x - 10, y - 10, 20, 20);
+      }
+    });
 
- // Stop drawing
- canvas.addEventListener('mouseup', () => {
-   drawing = false;
-   ctx.beginPath(); // Reset the path
- });
+    canvas.addEventListener('mouseup', (e) => {
+      if (!drawing) return;
+      drawing = false;
 
- // Stop drawing when leaving the canvas
- canvas.addEventListener('mouseleave', () => {
-   drawing = false;
- });
+      const x = e.clientX;
+      const y = e.clientY - canvas.offsetTop;
 
- // Buttons functionality
- document.getElementById('draw').addEventListener('click', () => {
-   erasing = false;
- });
+      if (tool === 'rectangle') {
+        const width = x - startX;
+        const height = y - startY;
+        ctx.fillStyle = color;
+        ctx.fillRect(startX, startY, width, height);
+      } else if (tool === 'circle') {
+        const radius = Math.sqrt(Math.pow(x - startX, 2) + Math.pow(y - startY, 2));
+        ctx.beginPath();
+        ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+    });
 
- document.getElementById('erase').addEventListener('click', () => {
-   erasing = true;
- });
-
- document.getElementById('clear').addEventListener('click', () => {
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
- });
+    // Reset drawing state when leaving the canvas
+    canvas.addEventListener('mouseleave', () => (drawing = false));
